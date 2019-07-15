@@ -93,17 +93,14 @@ pub struct SDC {
 // Public-facing secret contract function declarations
 #[pub_interface]
 pub trait VendorContractInterface {   // vendor-contract
-    // fn add_millionaire(address: H256, net_worth: U256);
-    // fn compute_richest() -> H256;
     // fn register(address: H256, vendorType: String);
     // fn form_coop_group(); // replaced by 2 funcs right below
     fn request_join_coop_group(address: H256, vendor_type: String, is_organizer: bool);
-    fn approve_request(term: String);
+    fn approve_request(choice: String);
 
     fn define_data_info();
     fn invest();    // DS will choose to invest for an SDC of a coop group
     fn on_subcribe(); // DU	can	choose to subscribe	an SDC of a coop-group
-    // fn subcribe();
     fn cancel_subscription(); // DU can decide to cancel her subscription of an SDC by marking her subscription status in the SDC as cancelled
 
 }
@@ -133,13 +130,14 @@ impl VendorContract {
         }
     }
 
-    fn add_member(address: H256, vendorType: String) {
-        // Read state to get vector of Millionaires
+    fn add_member(address: H256, vendorType: String, isOrganizer: bool) {
+        // Read state to get vector of Vendors
         let mut vendors = Self::get_vendors();
-        // Append a new Millionaire struct to this vector
+        // Append a new Vendor struct to this vector
         vendors.push(Vendor {
             address,
             vendorType,
+            isOrganizer
         });
         // Write the updated vector to contract's state
         write_state!(VENDORS => vendors);
@@ -181,6 +179,14 @@ impl VendorContractInterface for VendorContract {
     // a vendor send a request to join coop-group - this's triggered an user's action on GUI 
     #[no_mangle]
     fn request_join_coop_group(address: H256, vendor_type: String, is_organizer: bool) {
+        //  just store in mem first then once its approved by organizer (choice = 'yes'), calling add_member
+        // if is_organizer {
+        Self::add_member(address, vendor_type, is_organizer);
+        // }
+    }
 
+    #[no_mangle]
+    fn approve_request(choice: bool) {
+        
     }
 }

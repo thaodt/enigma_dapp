@@ -13,7 +13,6 @@ serde_derive = "1.0.84"
 serde = "1.0.84"
 chrono = { version = "0.4", features = ["serde"] }
 ethereum-types = "0.6.0"
-pwasm-ethereum = "0.8"
 
 [lib]
 crate-type = ["cdylib"]
