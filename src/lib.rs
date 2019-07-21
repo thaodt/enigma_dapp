@@ -13,7 +13,7 @@ use eng_wasm::*;
 use eng_wasm_derive::pub_interface;
 use chrono::{DateTime, Duration, Utc};
 use serde::{Serialize, Deserialize};
-use ethereum_types::H256;
+// use ethereum_types::H256;
 use std::cell::RefCell;
 
 
@@ -143,37 +143,6 @@ impl VendorContract {
         write_state!(VENDORS => vendors);
     }
 }
-
-// impl VendorContractInterface for Contract {
-//     // Add millionaire with 32-byte hash type for address and 32-byte uint for net worth
-//     #[no_mangle]
-//     fn add_millionaire(address: H256, net_worth: U256) {
-//         // Read state to get vector of Millionaires
-//         let mut millionaires = Self::get_vendors();
-//         // Append a new Millionaire struct to this vector
-//         millionaires.push(Millionaire {
-//             address,
-//             net_worth,
-//         });
-//         // Write the updated vector to contract's state
-//         write_state!(MILLIONAIRES => millionaires);
-//     }
-
-//     // Compute the richest millionaire by returning the 32-byte hash type for the address
-//     #[no_mangle]
-//     fn compute_richest() -> H256 {
-//         // Read state to get vector of Millionaires and obtain the struct corresponding to the
-//         // richest millionaire by net worth
-//         match Self::get_millionaires().iter().max_by_key(|m| m.net_worth) {
-//             // Return millionaire's address
-//             Some(millionaire) => {
-//                 millionaire.address
-//             },
-//             // Return empty address
-//             None => U256::from(0).into(),
-//         }
-//     }
-// }
 
 impl VendorContractInterface for VendorContract {
     // a vendor send a request to join coop-group - this's triggered an user's action on GUI 
